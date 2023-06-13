@@ -1,67 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Users</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Company Name</th>
-            </tr>
-        </thead>
-        <tbody id="users-tbody"></tbody>
-    </table>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css" />
+  </head>
+  <body>
+    <main>
+        <a href="index.html">Home</a>
+      <h1>Create User</h1>
+      <form onsubmit="handleSubmit(event);">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" />
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" />
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" />
+
+        <label for="company-name">Company Name</label>
+        <input type="text" id="company-name" name="company[name]" />
+
+        <button type="submit">Create</button>
+      </form>
+    </main>
     <script>
-        "use strict";
+      function handleSubmit(event) {
+        event.preventDefault();
 
-        const usersTbody = document.querySelector("#users-tbody");
+        let form = event.target;
+        let formData = new FormData(form);
+        // console.log(formData);
+        let user = Object.fromEntries(formData.entries());
 
-        function fetchUsers() {
-            fetch("http://localhost:3000/users")
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (users) {
-                console.log(users);
-                users.forEach(buildUserTableRow);
-            });
-        }
-
-        fetchUsers();
-
-        function buildUserTableRow(user) {
-            let row = document.createElement("tr");
-            usersTbody.appendChild(row);
-
-            let cell1 = document.createElement("td");
-            cell1.innerText = user.name;
-            row.appendChild(cell1);
-
-            let cell2 = document.createElement("td");
-            cell2.innerText = user.username;
-            row.appendChild(cell2);
-
-            let cell3 = document.createElement("td");
-            cell3.innerText = user.email;
-            row.appendChild(cell3);
-
-            let cell4 = document.createElement("td");
-            cell4.innerText = user.phone;
-            row.appendChild(cell4);
-
-            let cell5 = document.createElement("td");
-            cell5.innerText = user.company.name;
-            row.appendChild(cell5);
-
-        }
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(user),
+        })
+          .then(function (response) {
+            console.log(response.status, response.statusText);
+            return response.json();
+          })
+          .then(function (user) {
+            console.log(user);
+            alert("success");
+          });
+      }
     </script>
-</body>
+  </body>
 </html>
