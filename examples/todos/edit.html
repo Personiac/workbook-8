@@ -29,7 +29,6 @@
     </main>
     <script>
       "use strict";
-
       const userIdInput = document.querySelector("#userId");
       const titleInput = document.querySelector("#title");
       const completedInput = document.querySelector("#completed");
@@ -45,7 +44,6 @@
 
       function loadPage() {
         const todoId = getTodoId();
-
         fetch(`http://localhost:3000/todos/${todoId}`)
           .then((response) => {
             console.log(response.status, response.statusText);
@@ -58,14 +56,15 @@
           });
       }
 
+      loadPage();
 
       function handleEdit(event) {
         event.preventDefault();
 
         let todo = {
-          userIdInput: userIdInput.value,
-          titleInput: titleInput.value,
-          completedInput: completedInput.value 
+          userId: userIdInput.value,
+          title: titleInput.value,
+          completed: completedInput.value 
         };
 
         const todoId = getTodoId();
@@ -76,7 +75,7 @@
           body: JSON.stringify(todo),
         })
           .then((response) => response.json())
-          .then(open("index.html"));
+          .then((todo) => window.location.replace("index.html"));
       }
     </script>
   </body>
