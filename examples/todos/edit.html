@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css" />
+  </head>
+  <body>
+    <main>
+      <a href="index.html">Home</a>
+      <h1>Edit To-Do</h1>
+      <form onsubmit="handleEdit(event);">
+        <div id="userId"></div>
+        <label for="userId">User ID</label>
+        <input type="text" id="userId" name="userId" />
+
+        <div id="title"></div>
+        <label for="title">Task Title</label>
+        <input type="text" id="title" name="title" />
+
+        <div id="completed"></div>
+        <label for="completed">Completed?</label>
+        <input type="text" id="completed" name="completed" />
+
+        <button type="submit">Edit</button>
+      </form>
+    </main>
+    <script>
+      "use strict";
+
+      const userIdInput = document.querySelector("#userId");
+      const titleInput = document.querySelector("#title");
+      const completedInput = document.querySelector("#completed");
+
+      function getTodoId() {
+        const urlParams = new URLSearchParams(location.search);
+        if (!urlParams.has("todoId")) {
+          throw new Error("No User Id provided.");
+        }
+        const todoId = urlParams.get("todoId");
+        return todoId;
+      }
+
+      function loadPage() {
+        const todoId = getTodoId();
+
+        fetch(`http://localhost:3000/todos/${todoId}`)
+          .then((response) => {
+            console.log(response.status, response.statusText);
+            return response.json();
+          })
+          .then((todo) => {
+            userIdInput.value = todo.userId;
+            titleInput.value = todo.title;
+            completedInput.value = todo.completed;
+          });
+      }
+
+
+      function handleEdit(event) {
+        event.preventDefault();
+
+        let todo = {
+          userIdInput: userIdInput.value,
+          titleInput: titleInput.value,
+          completedInput: completedInput.value 
+        };
+
+        const todoId = getTodoId();
+
+        fetch(`http://localhost:3000/todos/${todoId}`, {
+          method: "PUT",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(todo),
+        })
+          .then((response) => response.json())
+          .then(open("index.html"));
+      }
+    </script>
+  </body>
+</html>
