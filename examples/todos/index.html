@@ -19,6 +19,7 @@
             <th>Completed</th>
             <th>User ID</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="todos-tbody"></tbody>
@@ -43,9 +44,13 @@
       fetchTodos();
 
       function buildTableRow(todo) {
-        let anchor = document.createElement("a");
-        anchor.href = `edit.html?todoId=${todo.id}`;
-        anchor.text = "Edit Details";
+        let anchorEdit = document.createElement("a");
+        anchorEdit.href = `edit.html?todoId=${todo.id}`;
+        anchorEdit.text = "Edit";
+
+        let anchorDelete = document.createElement("a");
+        anchorDelete.href = `delete.html?todoId=${todo.id}`;
+        anchorDelete.text = "Delete";
 
         let row = todosTBody.insertRow(-1);
 
@@ -53,7 +58,8 @@
         row.insertCell(1).innerText = todo.title;
         row.insertCell(2).innerText = todo.completed;
         row.insertCell(3).innerText = todo.userId;
-        row.insertCell(4).appendChild(anchor);
+        row.insertCell(4).appendChild(anchorEdit);
+        row.insertCell(5).appendChild(anchorDelete);
       }
 
       //function deleteButtom()

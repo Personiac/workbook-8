@@ -4,25 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit To-do</title>
+    <title>Delete To-do</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css" />
   </head>
   <body>
     <main>
       <a href="index.html">Home</a>
-      <h1>Edit To-Do</h1>
-      <form onsubmit="handleEdit(event);">
+      <h1>Delete To-Do</h1>
+      <form>
+        <div id="userId"></div>
 
-        <label for="userId">User ID</label>
-        <input type="text" id="userId" name="userId" />
-       
-        <label for="title">Task Title</label>
-        <input type="text" id="title" name="title" />
+        <div id="title"></div>
 
-        <label for="completed">Completed?</label>
-        <input type="text" id="completed" name="completed" />
+        <div id="completed"></div>
 
-        <button type="submit">Edit</button>
+        <button type="button" id="delete-button" onclick="confirmAction()">Delete</button>
       </form>
     </main>
     <script>
@@ -30,6 +26,7 @@
       const userIdInput = document.querySelector("#userId");
       const titleInput = document.querySelector("#title");
       const completedInput = document.querySelector("#completed");
+      const deleteButton = document.querySelector("#delete-button");
 
       function getTodoId() {
         const urlParams = new URLSearchParams(location.search);
@@ -51,29 +48,45 @@
             userIdInput.value = todo.userId;
             titleInput.value = todo.title;
             completedInput.value = todo.completed;
+          })
+          .then((todo) => {
+            userId.innerText = `User ID: ${userIdInput.value}`;
+            title.innerText = `Title: ${titleInput.value}`;
+            completed.innerText = `Completed: ${completedInput.value}`;
           });
       }
 
       loadPage();
 
-      function handleEdit(event) {
+      const confirmAction = () => {
+        const response = confirm("Confirm deletion?");
+        if (response) {
+          alert("Task Deleted.");
+          handleDelete(event);
+          returnHomePage();
+        } else {
+          alert("Canceled deletion.");
+        }
+      };
+
+      function handleDelete(event) {
         event.preventDefault();
 
         let todo = {
           userId: userIdInput.value,
           title: titleInput.value,
-          completed: completedInput.value 
+          completed: completedInput.value,
         };
 
         const todoId = getTodoId();
 
         fetch(`http://localhost:3000/todos/${todoId}`, {
-          method: "PUT",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(todo),
-        })
-          .then((response) => response.json())
-          .then((todo) => window.location.replace("index.html"));
+          method: "DELETE",
+        }).then((response) => response.json());
+      }
+
+      function returnHomePage() {
+        window.location.replace("index.html");
       }
     </script>
   </body>
