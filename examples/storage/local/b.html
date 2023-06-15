@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage</title>
+</head>
+<body>
+    <h1>Local Storage</h1>
+    <nav>
+        <a href="a.html">A</a>
+        <a href="b.html">B</a>
+    </nav>
+    <p id="message-paragraph"></p>
+    <script>
+        const messgaeParagraph = document.querySelector("#message-paragraph");
+        messgaeParagraph.innerText = localStorage.getItem("message");
+    </script>
+</body>
+</html>
