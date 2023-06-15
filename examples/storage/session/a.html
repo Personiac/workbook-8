@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Storage A</title>
+    <title>Session Storage A</title>
 </head>
 <body>
-    <h1>Local Storage A</h1>
+    <h1>Session Storage A</h1>
     <nav>
         <a href="a.html">A</a>
         <a href="b.html">B</a>
@@ -16,7 +16,7 @@
     <script>
         function storeMessage() {
             const messageInput = document.querySelector("#message-input");
-            localStorage.setItem("message", messageInput.value);
+            sessionStorage.setItem("message", messageInput.value);
         }
         </script>
 </body>

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Storage B</title>
+    <title>Session Storage B</title>
 </head>
 <body>
-    <h1>Local Storage B</h1>
+    <h1>Session Storage B</h1>
     <nav>
         <a href="a.html">A</a>
         <a href="b.html">B</a>
@@ -14,7 +14,7 @@
     <p id="message-paragraph"></p>
     <script>
         const messgaeParagraph = document.querySelector("#message-paragraph");
-        messgaeParagraph.innerText = localStorage.getItem("message");
+        messgaeParagraph.innerText = sessionStorage.getItem("message");
     </script>
 </body>
 </html>
