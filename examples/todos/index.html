@@ -19,7 +19,6 @@
             <th>Completed</th>
             <th>User ID</th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody id="todos-tbody"></tbody>
@@ -58,8 +57,13 @@
         row.insertCell(1).innerText = todo.title;
         row.insertCell(2).innerText = todo.completed;
         row.insertCell(3).innerText = todo.userId;
-        row.insertCell(4).appendChild(anchorEdit);
-        row.insertCell(5).appendChild(anchorDelete);
+
+        let btnCell = row.insertCell(4);
+        let verticalDivider = document.createTextNode(" | ")
+        
+        btnCell.appendChild(anchorEdit);
+        btnCell.appendChild(verticalDivider);
+        btnCell.appendChild(anchorDelete);
       }
 
       //function deleteButtom()
